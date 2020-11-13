@@ -15,9 +15,17 @@
         <van-tag v-for="tag in item.tag"color="#f2826a" style="margin-left: 5px;">{{tag.name}}</van-tag>
       </template>
       <template #footer>
-        <van-button round type="info" size="mini" >购买</van-button>
+        <van-button round type="info" size="mini" @click="buy">购买</van-button>
       </template>
     </van-card>
+    <van-sku
+            v-model="show"
+            :sku="sku"
+            :goods="goods"
+            :hide-stock="sku.hide_stock"
+            @buy-clicked="onBuyClicked"
+            :show-add-cart-btn="false"
+    />
 
 <!--    <van-row>-->
 <!--      <van-col span="24">-->
@@ -178,13 +186,65 @@
             ],
             thumb:"https://shopstatic.vivo.com.cn/vivoshop/commodity/31/10005931_1603089876415_750x750.png"
           }
-        ]
+        ],
+        show: true,
+        sku:{
+          tree:[
+            {
+              k: '规格',
+              v:[
+                {
+                  id:1,
+                  name:'32GB',
+                  imgUrl:'https://shopstatic.vivo.com.cn/vivoshop/commodity/31/10005931_1603089876415_750x750.png',
+                  previewImgUrl:'https://shopstatic.vivo.com.cn/vivoshop/commodity/31/10005931_1603089876415_750x750.png'
+                },
+                {
+                  id:2,
+                  name:'64GB',
+                  imgUrl:'https://shopstatic.vivo.com.cn/vivoshop/commodity/31/10005931_1603089876415_750x750.png',
+                  previewImgUrl:'https://shopstatic.vivo.com.cn/vivoshop/commodity/31/10005931_1603089876415_750x750.png'
+                }
+              ],
+              k_s:'s1',
+              largeImageMode: true,
+            }
+          ],
+          list: [
+            {
+              s1: 1,
+              price:280000,
+              stock_num:5
+            },
+            {
+              s1: 2,
+              price:320000,
+              stock_num:5
+            },
+          ],
+          price:'2800.00',
+          stock_num:10,
+          none_sku:false,
+          hide_stock:false
+        },
+        goods:{
+          picture:'https://shopstatic.vivo.com.cn/vivoshop/commodity/31/10005931_1603089876415_750x750.png'
+        }
       }
     },
     created(){
 
     },
     methods:{
+      buy(index){
+        this.show=true
+      },
+      onBuyClicked(item){
+        console.log(item)
+        this.$store.state.specsId=item.selectedSkuComb.s1
+        this.$store.state.quantity=item.selectedNum
+        this.$router.push('/addressList')
+      },
       onClick(index){
         switch (index) {
           case 0:
