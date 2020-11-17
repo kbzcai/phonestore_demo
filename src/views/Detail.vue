@@ -102,16 +102,15 @@
         methods: {
             onSubmit:function () {
                 const _this = this
-                // axios.put('http://localhost:8181/order/pay/'+this.$route.query.orderId).then(function (resp) {
-                //     if(resp.data.code == 0){
-                //         let instance = Toast('订单'+resp.data.data.orderId+'支付成功');
-                let instance=Toast('支付成功')
-                setTimeout(() => {
+                axios.put('http://localhost:8181/order/pay/'+this.$route.query.orderId).then(function (resp) {
+                    if(resp.data.code == 0){
+                        let instance = Toast('订单'+resp.data.data.orderId+'支付成功');
+                            setTimeout(() => {
                             instance.close();
                             _this.$router.push('/success?orderId='+_this.data.orderId+"&amount="+(_this.data.amount))
                         }, 1000)
-                //     }
-                // })
+                    }
+                })
             }
         }
     };
